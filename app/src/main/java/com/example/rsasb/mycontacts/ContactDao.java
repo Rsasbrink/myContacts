@@ -1,0 +1,27 @@
+package com.example.rsasb.mycontacts;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import java.util.List;
+@Dao
+public interface ContactDao {
+
+    @Query("SELECT * FROM contact")
+    List<Contact> getAll();
+
+    @Query("SELECT * FROM contact WHERE uid IN (:contactIds)")
+    List<Contact> loadAllByIds(int[] contactIds);
+
+    @Query("SELECT * FROM contact WHERE first_name LIKE :first AND "
+            + "last_name LIKE :last LIMIT 1")
+    Contact findByName(String first, String last);
+
+    @Insert
+    void insert(Contact... contacts);
+
+    @Delete
+    void delete(Contact contact);
+}
