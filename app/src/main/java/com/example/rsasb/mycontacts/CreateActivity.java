@@ -30,7 +30,7 @@ public class CreateActivity extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                System.out.println('hi');
                 String firstName = mFirstName.getText().toString();
                 String lastName = mLastName.getText().toString();
                 String phoneNumber = mPhone.getText().toString();
