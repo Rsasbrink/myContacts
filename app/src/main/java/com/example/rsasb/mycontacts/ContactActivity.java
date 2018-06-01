@@ -72,7 +72,7 @@ public class ContactActivity extends AppCompatActivity{
 
      private void updateUI() {
         if (mAdapter == null) {
-            mAdapter = new ContactAdapter (this, mContacts);
+            mAdapter = new ContactAdapter ((ContactAdapter.ContactClickListener) this, mContacts);
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.swapList(mContacts);
@@ -101,26 +101,26 @@ public class ContactActivity extends AppCompatActivity{
     }
 
     public void contactOnClick(int i) {
-        Intent intent = new Intent(ContactActivity.this, ShowActivity.class);
-        mModifyPosition = i;
-        intent.putExtra(EXTRA_CONTACT,  mContacts.get(i));
-        startActivityForResult(intent, REQUESTCODE);
+//        Intent intent = new Intent(ContactActivity.this, ShowActivity.class);
+//        mModifyPosition = i;
+//        intent.putExtra(EXTRA_CONTACT,  mContacts.get(i));
+//        startActivityForResult(intent, REQUESTCODE);
     }
-        @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUESTCODE) {
-            if (resultCode == RESULT_OK) {
-
-                //Because the updatedReminder object is a new object with a different id, we just change the text of the current one
-                //So the database can recognize the Reminder by id and update it
-                Contact updatedReminder = data.getParcelableExtra(MainActivity.EXTRA_CONTACT);
-                mContacts.get(mModifyPosition).setReminderText(updatedReminder.getReminderText());
-
-//                new ReminderAsyncTask(TASK_UPDATE_CONTACT).execute(mContacts.get(mModifyPosition));
-            }
-        }
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (requestCode == REQUESTCODE) {
+//            if (resultCode == RESULT_OK) {
+//
+//                //Because the updatedReminder object is a new object with a different id, we just change the text of the current one
+//                //So the database can recognize the Reminder by id and update it
+//                Contact updatedReminder = data.getParcelableExtra(MainActivity.EXTRA_CONTACT);
+//                mContacts.get(mModifyPosition).setReminderText(updatedReminder.getReminderText());
+//
+////                new ReminderAsyncTask(TASK_UPDATE_CONTACT).execute(mContacts.get(mModifyPosition));
+//            }
+//        }
+//    }
      public void onContactDbUpdated(List list) {
         mContacts = list;
         updateUI();

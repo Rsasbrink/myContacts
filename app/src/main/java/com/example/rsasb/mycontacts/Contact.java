@@ -6,8 +6,10 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class Contact {
+
     @PrimaryKey
     private int uid;
+
 
     @ColumnInfo(name = "first_name")
     private String firstName;
@@ -16,13 +18,13 @@ public class Contact {
     private String lastName;
 
     @ColumnInfo(name = "phone_number")
-    private int phoneNumber;
+    private String phoneNumber;
 
     @ColumnInfo(name = "street")
     private String street;
 
     @ColumnInfo(name = "house_number")
-    private int houseNumber;
+    private String houseNumber;
 
     @ColumnInfo(name = "zipcode")
     private String zipCode;
@@ -32,6 +34,17 @@ public class Contact {
 
     @ColumnInfo(name = "email_address")
     private String emailAddress;
+
+    public Contact(String firstName, String lastName, String phoneNumber, String street, String houseNumber, String zipCode, String city, String emailAddress) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.emailAddress = emailAddress;
+    }
 
     public int getUid() {
         return uid;
@@ -57,11 +70,11 @@ public class Contact {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -73,11 +86,11 @@ public class Contact {
         this.street = street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 
@@ -103,5 +116,20 @@ public class Contact {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "uid=" + uid +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", street='" + street + '\'' +
+                ", houseNumber=" + houseNumber +
+                ", zipCode='" + zipCode + '\'' +
+                ", city='" + city + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                '}';
     }
 }
