@@ -4,10 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
-public class Contact {
+import java.io.Serializable;
 
-    @PrimaryKey
+@Entity
+public class Contact implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
     private int uid;
 
 

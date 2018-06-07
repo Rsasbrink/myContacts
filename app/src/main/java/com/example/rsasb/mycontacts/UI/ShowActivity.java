@@ -1,7 +1,9 @@
-package com.example.rsasb.mycontacts;
+package com.example.rsasb.mycontacts.UI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.rsasb.mycontacts.R;
 
 public class ShowActivity extends AppCompatActivity {
 

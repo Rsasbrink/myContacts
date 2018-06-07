@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 @Dao
@@ -18,7 +19,8 @@ public interface ContactDao {
     @Query("SELECT * FROM contact WHERE first_name LIKE :first AND "
             + "last_name LIKE :last LIMIT 1")
     Contact findByName(String first, String last);
-
+    @Update
+    void update (Contact... contacts);
     @Insert
     void insert(Contact... contacts);
 

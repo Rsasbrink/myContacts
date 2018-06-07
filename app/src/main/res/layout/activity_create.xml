@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateActivity">
+    tools:context=".UI.CreateActivity">
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -111,12 +111,6 @@
         android:layout_height="wrap_content"
         android:text="Save"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="455dp" /><Button
-    android:id="@+id/button_saveContact"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Save"
-    tools:layout_editor_absoluteX="16dp"
-    tools:layout_editor_absoluteY="455dp" />
+        tools:layout_editor_absoluteY="455dp" />
 
 </android.support.constraint.ConstraintLayout>
