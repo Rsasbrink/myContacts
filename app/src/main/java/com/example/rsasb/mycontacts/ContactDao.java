@@ -21,6 +21,7 @@ public interface ContactDao {
     Contact findByName(String first, String last);
     @Update
     void update (Contact... contacts);
+
     @Insert
     long insert(Contact contact);
 

@@ -1,22 +1,21 @@
-package com.example.rsasb.mycontacts;
+package com.example.rsasb.mycontacts.UI;
 
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rsasb.mycontacts.AppDatabase;
+import com.example.rsasb.mycontacts.Contact;
+import com.example.rsasb.mycontacts.ContactAdapter;
 import com.example.rsasb.mycontacts.ContactAdapter.ContactClickListener;
-import com.example.rsasb.mycontacts.UI.ContactActivity;
-import com.example.rsasb.mycontacts.UI.ShowActivity;
+import com.example.rsasb.mycontacts.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class contactList extends Fragment implements ContactClickListener {
+public class ContactListFragment extends Fragment implements ContactClickListener {
 
     public final static int TASK_GET_ALL_CONTACTS = 0;
     public final static int TASK_DELETE_CONTACT = 1;
@@ -49,7 +48,7 @@ public class contactList extends Fragment implements ContactClickListener {
     public static final int REQUESTCODE = 1234;
     private int mModifyPosition;
 
-    public contactList() {
+    public ContactListFragment() {
         // Required empty public constructor
     }
     @Override
@@ -74,13 +73,11 @@ public class contactList extends Fragment implements ContactClickListener {
         //mRecyclerView.setAdapter(mAdapter);
         ((RecyclerView) view.findViewById(R.id.recyclerView)).setAdapter(mAdapter);
 
-        System.out.println(mContacts);
 
         return view;
     }
     private void updateUI() {
         if (mAdapter == null) {
-            System.out.println("hi");
             mAdapter = new ContactAdapter(this, mContacts);
             mRecyclerView.setAdapter(mAdapter);
         } else {
@@ -95,7 +92,7 @@ public class contactList extends Fragment implements ContactClickListener {
 
     @Override
     public void ContactOnClick(int id) {
-        Intent intent = new Intent(getActivity(), ShowActivity.class);
+        Intent intent = new Intent(getActivity(), ShowContactActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("contact", mContacts.get(id));
         intent.putExtras(bundle);

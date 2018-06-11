@@ -2,17 +2,12 @@ package com.example.rsasb.mycontacts;
 
 import android.support.v7.widget.RecyclerView;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-
-import static com.example.rsasb.mycontacts.R.layout.contact_list_row;
 
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
@@ -37,15 +32,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     public ContactAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_list_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ContactAdapter.ViewHolder holder, final int position) {
         Contact contact = mContacts.get(position);
-        String fullName = contact.getFirstName() + ' ' + contact.getLastName();
-        holder.name.setText(fullName);
+
+        holder.name.setText(contact.getFullName());
     }
 
     public void swapList(List<Contact> newList) {

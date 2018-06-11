@@ -1,6 +1,5 @@
 package com.example.rsasb.mycontacts.UI;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -11,14 +10,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.rsasb.mycontacts.AppDatabase;
 import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.R;
 
-public class EditActivity extends AppCompatActivity {
+public class EditContactActivity extends AppCompatActivity {
     private EditText mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
     static AppDatabase db;
 
@@ -69,14 +67,12 @@ public class EditActivity extends AppCompatActivity {
 
                 db.contactDao().update(contact);
 
-                Intent intent = new Intent(EditActivity.this, ShowActivity.class);
+                Intent intent = new Intent(EditContactActivity.this, ShowContactActivity.class);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("contact", contact);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1234);
-                Snackbar.make(view, "Contact geupdated", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -87,19 +83,18 @@ public class EditActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(this);
         }
-        builder.setTitle("Teruggaan")
-                .setMessage("Weet u zeker dat u terug wilt en de veranderingen ongdaan wilt maken?")
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.alert_discard_change_title)
+                .setMessage(R.string.alert_discard_change_content)
+                .setPositiveButton(R.string.answer_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.answer_no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
 
     }

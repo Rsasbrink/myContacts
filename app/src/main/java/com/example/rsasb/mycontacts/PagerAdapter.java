@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.rsasb.mycontacts.UI.ContactListFragment;
+import com.example.rsasb.mycontacts.UI.ContactMapFragment;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
@@ -17,10 +20,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                contactList tab1 = new contactList();
+                ContactListFragment tab1 = new ContactListFragment();
                 return tab1;
             case 1:
-                contactMap tab2 = new contactMap();
+                ContactMapFragment tab2 = new ContactMapFragment();
                 return tab2;
             default:
                 return null;

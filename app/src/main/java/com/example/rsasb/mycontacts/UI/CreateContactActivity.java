@@ -2,6 +2,7 @@ package com.example.rsasb.mycontacts.UI;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.example.rsasb.mycontacts.R;
 import java.util.List;
 
 
-public class CreateActivity extends AppCompatActivity {
+public class CreateContactActivity extends AppCompatActivity {
     public final static int TASK_GET_ALL_CONTACTS = 0;
     public final static int TASK_DELETE_CONTACT = 1;
     public final static int TASK_UPDATE_CONTACT = 2;
@@ -23,6 +24,7 @@ public class CreateActivity extends AppCompatActivity {
     private EditText mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
 
     static AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,45 +56,25 @@ public class CreateActivity extends AppCompatActivity {
                 String city = mCity.getText().toString();
                 String email = mEmail.getText().toString();
 
-                Contact newContact = new Contact(firstName, lastName, phoneNumber, street, houseNumber, zipcode, city, email);
+                if (firstName.trim().isEmpty() || firstName == null) {
+                    Snackbar.make(view, R.string.warning_empty_first_name, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    Contact newContact = new Contact(firstName, lastName, phoneNumber, street, houseNumber, zipcode, city, email);
 
+                    // Insert new contact and retrieve the ID
+                    long id = db.contactDao().insert(newContact);
+                    // Get new made contact to pass it to the Contact show activity
+                    Contact createdContact = db.contactDao().findById(id);
+                    Intent intent = new Intent(CreateContactActivity.this, ShowContactActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("contact", createdContact);
+                    intent.putExtras(bundle);
 
-               long id =  db.contactDao().insert(newContact);
-                Contact createdContact = db.contactDao().findById(id);
-                Intent intent = new Intent(CreateActivity.this, ShowActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("contact", createdContact);
-                intent.putExtras(bundle);
-
-                startActivityForResult(intent, 0);
+                    startActivityForResult(intent, 0);
+                }
             }
         });
     }
-    public class ContactAsyncTask  extends AsyncTask<Contact, Void, List> {
 
-        private int taskCode;
-
-        public ContactAsyncTask(int taskCode) {
-            this.taskCode = taskCode;
-        }
-
-        @Override
-              protected List doInBackground(Contact... contacts) {
-            switch (taskCode){
-                case TASK_DELETE_CONTACT:
-                    db.contactDao().delete(contacts[0]);
-                    break;
-                case TASK_UPDATE_CONTACT:
-                    db.contactDao().update(contacts[0]);
-                    break;
-                case TASK_INSERT_CONTACT:
-                    db.contactDao().insert(contacts[0]);
-                    break;
-            }
-
-            //To return a new list with the updated data, we get all the data from the database again.
-            return db.contactDao().getAll();
-        }
-
-    }
 }

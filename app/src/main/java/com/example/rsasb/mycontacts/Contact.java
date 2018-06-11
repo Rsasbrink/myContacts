@@ -120,5 +120,11 @@ public class Contact implements Serializable {
         this.emailAddress = emailAddress;
     }
 
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
 
+    public String getFullAddress() {
+        return String.format("%s %s", street, houseNumber, zipCode, city);
+    }
 }
