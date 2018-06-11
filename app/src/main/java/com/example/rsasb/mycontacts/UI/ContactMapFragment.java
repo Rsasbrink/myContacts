@@ -61,13 +61,15 @@ public class ContactMapFragment extends Fragment {
 
                 // For showing a move to my location button
                 googleMap.setMyLocationEnabled(true);
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                if (db.contactDao().getAll().size() > 0){
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
 
                 for (Contact contact : db.contactDao().getAll()) {
                     if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
                         LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
-                        googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet("Marker Description"));
+                        googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet(contact.getFullAddress()));
                         builder.include(location);
                     }
                 }
@@ -81,7 +83,7 @@ public class ContactMapFragment extends Fragment {
 
 
                 googleMap.moveCamera(cu);
-
+                }
             }
         });
 
