@@ -17,20 +17,16 @@ public abstract class AppDatabase extends RoomDatabase {
     static final Migration MIGRATION_3_4 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-// Since we didn't alter the table, there's nothing else to do here.
+        // Since we didn't alter the table, there's nothing else to do here.
         }
     };
-
-
-
-
     //Static instance
     private static AppDatabase sInstance;
 
     public static AppDatabase getInstance(Context context) {
-        if(sInstance == null) {
+        if (sInstance == null) {
             sInstance = Room.databaseBuilder(context, AppDatabase.class, NAME_DATABASE)
-                    .addMigrations(MIGRATION_3_4) .allowMainThreadQueries().build();
+                    .addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
         }
 
         return sInstance;

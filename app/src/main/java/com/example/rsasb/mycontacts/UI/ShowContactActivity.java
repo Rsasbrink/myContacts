@@ -37,7 +37,7 @@ public class ShowContactActivity extends AppCompatActivity {
 
         setTitle(contact.getFullName());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show);
+        setContentView(R.layout.activity_show_contact);
 
         db = AppDatabase.getInstance(this);
 

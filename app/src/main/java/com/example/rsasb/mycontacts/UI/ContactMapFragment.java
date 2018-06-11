@@ -1,19 +1,12 @@
 package com.example.rsasb.mycontacts.UI;
 
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.rsasb.mycontacts.AppDatabase;
 import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -28,6 +22,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -37,7 +32,6 @@ import java.util.List;
 
 public class ContactMapFragment extends Fragment {
 
-    private static final int PERMISSION_REQUEST_CODE = 1;
     MapView mMapView;
     private GoogleMap googleMap;
     private static List<Contact> mContacts = new ArrayList<>();
@@ -46,7 +40,6 @@ public class ContactMapFragment extends Fragment {
     //Database related local variables
 
     static AppDatabase db;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_map, container, false);
@@ -67,24 +60,27 @@ public class ContactMapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-                if (Build.VERSION.SDK_INT >= 23) {
-                    //Check whether your app has access to the READ permission//
-                    if (checkPermission()) {
-                        // For showing a move to my location button
-                        googleMap.setMyLocationEnabled(true);
 
-                    } else {
-                        //If your app doesn’t have permission to access external storage, then call requestPermission//
-                        requestPermission();
+                // For showing a move to my location button
+                googleMap.setMyLocationEnabled(true);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (Contact contact : db.contactDao().getAll()) {
+                      if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
+                            LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
+                            googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet("Marker Description"));
+                          builder.include(location);
+                      }
                     }
-                }
-                for (Contact contact : db.contactDao().getAll()) {
-                    if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
-                        LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
-                        googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()));
-                    }
-                }
 
+
+                LatLngBounds bounds = builder.build();
+
+
+                int padding = 300; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+
+                googleMap.moveCamera(cu);
 
             }
         });
@@ -115,7 +111,6 @@ public class ContactMapFragment extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
@@ -130,7 +125,7 @@ public class ContactMapFragment extends Fragment {
             }
 
             Address location = (Address) address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
 
         } catch (IOException ex) {
 
@@ -139,7 +134,6 @@ public class ContactMapFragment extends Fragment {
 
         return p1;
     }
-
     public class ContactAsyncTask extends AsyncTask<Contact, Void, List> {
 
         private int taskCode;
@@ -160,29 +154,5 @@ public class ContactMapFragment extends Fragment {
         }
 
 
-    }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.LOCATION_HARDWARE}, PERMISSION_REQUEST_CODE);
-
-    }
-
-    private boolean checkPermission() {
-
-//Check for READ_EXTERNAL_STORAGE access, using ContextCompat.checkSelfPermission()//
-
-        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.LOCATION_HARDWARE);
-
-//If the app does have this permission, then return true//
-
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-
-//If the app doesn’t have this permission, then return false//
-
-            return false;
-        }
     }
 }

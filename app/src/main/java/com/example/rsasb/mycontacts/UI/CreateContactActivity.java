@@ -1,7 +1,6 @@
 package com.example.rsasb.mycontacts.UI;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import com.example.rsasb.mycontacts.AppDatabase;
 import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.R;
-
-import java.util.List;
 
 
 public class CreateContactActivity extends AppCompatActivity {
@@ -28,7 +25,7 @@ public class CreateContactActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
+        setContentView(R.layout.activity_create_contact);
 
         db = AppDatabase.getInstance(this);
 
