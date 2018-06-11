@@ -21,11 +21,7 @@ import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.R;
 
 public class ShowContactActivity extends AppCompatActivity {
-    private static final int PERMISSION_REQUEST_CODE = 1;
-    public static final String EDIT_CONTACT = "";
-    public static final int DELETED_CONTACT = 2;
-    public static final int BACK_PRESSED = 1;
-
+    //Local variables
     private TextView mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
     static AppDatabase db;
     private Button deleteButton, dialButton, editButton;
@@ -68,7 +64,7 @@ public class ShowContactActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("contact", contact);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, DELETED_CONTACT);
+                startActivityForResult(intent, 0);
 
             }
         });
@@ -112,7 +108,7 @@ public class ShowContactActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 db.contactDao().delete(contact);
                                 Intent intent = new Intent(ShowContactActivity.this, ContactActivity.class);
-                                startActivityForResult(intent, DELETED_CONTACT);
+                                startActivityForResult(intent, 0);
                             }
                         })
                         .setNegativeButton(R.string.answer_no, new DialogInterface.OnClickListener() {
@@ -126,7 +122,7 @@ public class ShowContactActivity extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 0);
     }
 
     private boolean checkPermission() {
@@ -145,6 +141,6 @@ public class ShowContactActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ShowContactActivity.this, ContactActivity.class);
-        startActivityForResult(intent, BACK_PRESSED);
+        startActivityForResult(intent, 0);
     }
 }

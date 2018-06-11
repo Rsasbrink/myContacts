@@ -13,10 +13,7 @@ import com.example.rsasb.mycontacts.PagerAdapter;
 import com.example.rsasb.mycontacts.R;
 
 public class ContactActivity extends AppCompatActivity {
-
-
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -24,10 +21,12 @@ public class ContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Find the tab layout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.contacts));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.map));
+
         // Stretch the tablayout over the full width
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -45,14 +44,13 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
+
         // Navigate to the Contact creating activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,10 +60,7 @@ public class ContactActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-
     }
-
-
 }
 
 

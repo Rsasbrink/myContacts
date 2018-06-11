@@ -16,6 +16,8 @@ import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.R;
 
 public class EditContactActivity extends AppCompatActivity {
+
+    //Local variables
     private EditText mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
     static AppDatabase db;
 
@@ -23,7 +25,7 @@ public class EditContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         db = AppDatabase.getInstance(this);
@@ -75,6 +77,7 @@ public class EditContactActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBackPressed() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

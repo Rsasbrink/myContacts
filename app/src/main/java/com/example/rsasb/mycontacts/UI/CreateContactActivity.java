@@ -14,12 +14,8 @@ import com.example.rsasb.mycontacts.R;
 
 
 public class CreateContactActivity extends AppCompatActivity {
-    public final static int TASK_GET_ALL_CONTACTS = 0;
-    public final static int TASK_DELETE_CONTACT = 1;
-    public final static int TASK_UPDATE_CONTACT = 2;
-    public final static int TASK_INSERT_CONTACT = 3;
+    //Local variables
     private EditText mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
-
     static AppDatabase db;
 
     @Override
@@ -43,7 +39,6 @@ public class CreateContactActivity extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String firstName = mFirstName.getText().toString();
                 String lastName = mLastName.getText().toString();
                 String phoneNumber = mPhone.getText().toString();

@@ -32,14 +32,12 @@ import java.util.List;
 
 public class ContactMapFragment extends Fragment {
 
+    //Local variables
     MapView mMapView;
     private GoogleMap googleMap;
     private static List<Contact> mContacts = new ArrayList<>();
-    public final static int TASK_GET_ALL_CONTACTS = 0;
-
-    //Database related local variables
-
     static AppDatabase db;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_map, container, false);
@@ -64,13 +62,15 @@ public class ContactMapFragment extends Fragment {
                 // For showing a move to my location button
                 googleMap.setMyLocationEnabled(true);
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    for (Contact contact : db.contactDao().getAll()) {
-                      if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
-                            LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
-                            googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet("Marker Description"));
-                          builder.include(location);
-                      }
+
+
+                for (Contact contact : db.contactDao().getAll()) {
+                    if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
+                        LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
+                        googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet("Marker Description"));
+                        builder.include(location);
                     }
+                }
 
 
                 LatLngBounds bounds = builder.build();
@@ -111,6 +111,7 @@ public class ContactMapFragment extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+    // Method to calculate our latlong from address
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
@@ -125,34 +126,12 @@ public class ContactMapFragment extends Fragment {
             }
 
             Address location = (Address) address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (IOException ex) {
 
             ex.printStackTrace();
         }
-
         return p1;
-    }
-    public class ContactAsyncTask extends AsyncTask<Contact, Void, List> {
-
-        private int taskCode;
-
-        public ContactAsyncTask(int taskCode) {
-            this.taskCode = taskCode;
-        }
-
-        @Override
-        protected List doInBackground(Contact... contacts) {
-            switch (taskCode) {
-
-
-            }
-
-            //To return a new list with the updated data, we get all the data from the database again.
-            return db.contactDao().getAll();
-        }
-
-
     }
 }

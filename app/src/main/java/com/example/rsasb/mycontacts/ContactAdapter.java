@@ -24,10 +24,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         void ContactOnClick(int id);
     }
 
-
     @Override
     public int getItemCount() {
-
         return mContacts.size();
     }
 
@@ -44,7 +42,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     public void swapList(List<Contact> newList) {
-
         mContacts = newList;
         if (newList != null) {
             // Force the RecyclerView to refresh
@@ -58,7 +55,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         public ViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
-
             itemView.setOnClickListener(this);
         }
 
