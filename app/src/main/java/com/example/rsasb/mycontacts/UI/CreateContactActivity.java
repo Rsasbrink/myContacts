@@ -22,7 +22,7 @@ public class CreateContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contact);
-
+        setTitle(R.string.title_create_contact);
         db = AppDatabase.getInstance(this);
 
         mFirstName = findViewById(R.id.editText_firstName);

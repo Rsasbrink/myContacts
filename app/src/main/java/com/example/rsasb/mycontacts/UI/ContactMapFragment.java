@@ -63,7 +63,7 @@ public class ContactMapFragment extends Fragment {
                 googleMap.setMyLocationEnabled(true);
                 if (db.contactDao().getAll().size() > 0) {
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    int counter = 0
+                    int counter = 0;
                     for (Contact contact : db.contactDao().getAll()) {
                         if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
                             counter++;
