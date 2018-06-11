@@ -25,7 +25,7 @@ public class ShowActivity extends AppCompatActivity {
 
     private TextView mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
     static AppDatabase db;
-    private Button deleteButton, dialButton, ediButton;
+    private Button deleteButton, dialButton, editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
