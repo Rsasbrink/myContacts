@@ -14,7 +14,6 @@ import com.example.rsasb.mycontacts.R;
 
 import java.util.List;
 
-import static com.example.rsasb.mycontacts.UI.ContactActivity.REQUESTCODE;
 
 public class CreateActivity extends AppCompatActivity {
     public final static int TASK_GET_ALL_CONTACTS = 0;

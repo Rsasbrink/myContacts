@@ -4,4 +4,9 @@
     <string name="title_activity_edit">EditActivity</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
+    <string name="contacts">Contacten</string>
+    <string name="map">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
