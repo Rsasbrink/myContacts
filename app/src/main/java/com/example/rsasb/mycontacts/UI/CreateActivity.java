@@ -41,11 +41,11 @@ public class CreateActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.editText_email);
 
         Button but = findViewById(R.id.button_saveContact);
-        System.out.println(but);
+
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("hi");
+
                 String firstName = mFirstName.getText().toString();
                 String lastName = mLastName.getText().toString();
                 String phoneNumber = mPhone.getText().toString();
@@ -56,7 +56,6 @@ public class CreateActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString();
 
                 Contact newContact = new Contact(firstName, lastName, phoneNumber, street, houseNumber, zipcode, city, email);
-                System.out.println(newContact.toString());
 
                 db.contactDao().insert(newContact);
                 Intent intent = new Intent(CreateActivity.this, ContactActivity.class);

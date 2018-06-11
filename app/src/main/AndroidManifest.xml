@@ -20,7 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.ShowActivity" />
-        <activity android:name=".UI.CreateActivity"></activity>
+        <activity android:name=".UI.CreateActivity" />
+        <activity
+            android:name=".UI.EditActivity"
+            android:label="@string/title_activity_edit"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity
+@Entity(tableName = "contact")
 public class Contact implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -120,18 +120,5 @@ public class Contact implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "uid=" + uid +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", street='" + street + '\'' +
-                ", houseNumber=" + houseNumber +
-                ", zipCode='" + zipCode + '\'' +
-                ", city='" + city + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                '}';
-    }
+
 }

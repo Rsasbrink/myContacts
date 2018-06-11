@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -19,9 +21,10 @@ import com.example.rsasb.mycontacts.Contact;
 import com.example.rsasb.mycontacts.ContactAdapter;
 import com.example.rsasb.mycontacts.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ContactActivity extends AppCompatActivity implements ContactAdapter.ContactClickListener{
+public class ContactActivity extends AppCompatActivity implements ContactAdapter.ContactClickListener {
 
     public final static int TASK_GET_ALL_CONTACTS = 0;
     public final static int TASK_DELETE_CONTACT = 1;
@@ -31,19 +34,17 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
     //Local variables
     private ContactAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private EditText mNewContactText;
-    private static List<Contact> mContacts;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private static List<Contact> mContacts = new ArrayList<>();
 
     //Database related local variables
 
     static AppDatabase db;
 
-    //Constants used when calling the update activity
-    public static final String EXTRA_NUMBER = "Row number";
-
+    public static final String VIEW_CONTACT = "";
     public static final int REQUESTCODE = 1234;
     private int mModifyPosition;
-
 
 
     @Override
@@ -57,27 +58,36 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
 
         mRecyclerView = findViewById(R.id.recyclerView);
 
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mAdapter = new ContactAdapter(this, mContacts);
+        mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-       new ContactAsyncTask(TASK_GET_ALL_CONTACTS).execute();
+        new ContactAsyncTask(TASK_GET_ALL_CONTACTS).execute();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(mContacts);
-                 Intent intent = new Intent(ContactActivity.this, CreateActivity.class);
-
-
-        startActivityForResult(intent, REQUESTCODE);
+                Intent intent = new Intent(ContactActivity.this, CreateActivity.class);
+                startActivityForResult(intent, REQUESTCODE);
             }
         });
 
     }
 
+    private void updateUI() {
+        if (mAdapter == null) {
+            mAdapter = new ContactAdapter(this, mContacts);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+
+            mAdapter.swapList(mContacts);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,20 +110,8 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
 
         return super.onOptionsItemSelected(item);
     }
-    private void updateUI() {
-        if (mAdapter == null) {
-            mAdapter = new ContactAdapter (this, mContacts);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.swapList(mContacts);
-        }
-    }
-    public void contactOnClick(int i) {
-        Intent intent = new Intent(ContactActivity.this, ShowActivity.class);
-        mModifyPosition = i;
-       // intent.putExtra(EXTRA_CONTACT,  mContacts.get(i));
-        startActivityForResult(intent, REQUESTCODE);
-    }
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -129,17 +127,22 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
             }
         }
     }
-     public void onContactDbUpdated(List list) {
+
+    public void onContactDbUpdated(List list) {
         mContacts = list;
         updateUI();
     }
 
     @Override
     public void ContactOnClick(int id) {
-
+        Intent intent = new Intent(ContactActivity.this, ShowActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("contact", mContacts.get(id));
+        intent.putExtras(bundle);
+        startActivityForResult(intent, REQUESTCODE);
     }
 
-    public class ContactAsyncTask  extends AsyncTask<Contact, Void, List> {
+    public class ContactAsyncTask extends AsyncTask<Contact, Void, List> {
 
         private int taskCode;
 
@@ -149,7 +152,7 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
 
         @Override
         protected List doInBackground(Contact... contacts) {
-            switch (taskCode){
+            switch (taskCode) {
                 case TASK_DELETE_CONTACT:
                     db.contactDao().delete(contacts[0]);
                     break;
@@ -169,6 +172,7 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
         protected void onPostExecute(List list) {
             super.onPostExecute(list);
             onContactDbUpdated(list);
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

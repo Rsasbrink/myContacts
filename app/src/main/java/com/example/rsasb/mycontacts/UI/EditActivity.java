@@ -1,0 +1,82 @@
+package com.example.rsasb.mycontacts.UI;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.rsasb.mycontacts.AppDatabase;
+import com.example.rsasb.mycontacts.Contact;
+import com.example.rsasb.mycontacts.R;
+
+public class EditActivity extends AppCompatActivity {
+    private EditText mFirstName, mLastName, mPhone, mStreet, mHousenumber, mZipcode, mCity, mEmail;
+    static AppDatabase db;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        db = AppDatabase.getInstance(this);
+
+        Bundle bundle = getIntent().getExtras();
+        final Contact contact = (Contact) bundle.get("contact");
+
+        mFirstName = findViewById(R.id.editText_firstName);
+        mLastName = findViewById(R.id.editText_lastName);
+        mPhone = findViewById(R.id.editText_phoneNumber);
+        mStreet = findViewById(R.id.editText_street);
+        mHousenumber = findViewById(R.id.editText_houseNumber);
+        mZipcode = findViewById(R.id.editText_zipcode);
+        mCity = findViewById(R.id.editText_city);
+        mEmail = findViewById(R.id.editText_email);
+
+        mFirstName.setText(contact.getFirstName());
+        mLastName.setText(contact.getLastName());
+        mPhone.setText(contact.getPhoneNumber());
+        mStreet.setText(contact.getStreet());
+        mHousenumber.setText(contact.getHouseNumber());
+        mZipcode.setText(contact.getZipCode());
+        mCity.setText(contact.getCity());
+        mEmail.setText(contact.getEmailAddress());
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                contact.setFirstName(mFirstName.getText().toString());
+                contact.setLastName(mLastName.getText().toString());
+                contact.setPhoneNumber(mPhone.getText().toString());
+                contact.setStreet(mStreet.getText().toString());
+                contact.setHouseNumber(mHousenumber.getText().toString());
+                contact.setZipCode(mZipcode.getText().toString());
+                contact.setCity(mCity.getText().toString());
+                contact.setEmailAddress(mEmail.getText().toString());
+
+
+
+                db.contactDao().update(contact);
+
+                Intent intent = new Intent(EditActivity.this, ShowActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("contact", contact);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 1234);
+                Snackbar.make(view, "Contact geupdated", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+
+}

@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
 
+import static com.example.rsasb.mycontacts.R.layout.contact_list_row;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>{
+
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
     final private ContactClickListener mContactClickListener;
     private List<Contact> mContacts;
@@ -22,38 +25,46 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         this.mContacts = mContacts;
     }
 
-    public interface ContactClickListener{
+    public interface ContactClickListener {
         void ContactOnClick(int id);
     }
-@Override
-    public void onBindViewHolder(ContactAdapter.ViewHolder holder, final int position) {
-        Contact contact =  mContacts.get(position);
-        holder.textView.setText(contact.getFirstName());
 
-    }
 
     @Override
     public int getItemCount() {
+
         return mContacts.size();
     }
 
-   public ContactAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-
-        android.content.Context context = parent.getContext();
-        LayoutInflater inflater= LayoutInflater.from(context);
-        View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-
-        // Return a new holder instance
-        ContactAdapter.ViewHolder viewHolder = new ContactAdapter.ViewHolder(view);
-        return viewHolder;
+    public ContactAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.contact_list_row, parent, false);
+        return new ViewHolder(itemView);
     }
-     public class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        public TextView textView;
 
-        public ViewHolder(View itemView) {
+    @Override
+    public void onBindViewHolder(ContactAdapter.ViewHolder holder, final int position) {
+        Contact contact = mContacts.get(position);
+        String fullName = contact.getFirstName() + ' ' + contact.getLastName();
+        holder.name.setText(fullName);
+    }
 
-            super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+    public void swapList(List<Contact> newList) {
+
+        mContacts = newList;
+        if (newList != null) {
+            // Force the RecyclerView to refresh
+            this.notifyDataSetChanged();
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView name;
+
+        public ViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.name);
+
             itemView.setOnClickListener(this);
         }
 
@@ -63,14 +74,4 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             mContactClickListener.ContactOnClick(clickedPosition);
         }
     }
-
-     public void swapList (List<Contact> newList) {
-
-        mContacts = newList;
-        if (newList != null) {
-            // Force the RecyclerView to refresh
-            this.notifyDataSetChanged();
-        }
-    }
-
 }
