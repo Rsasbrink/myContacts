@@ -61,28 +61,25 @@ public class ContactMapFragment extends Fragment {
 
                 // For showing a move to my location button
                 googleMap.setMyLocationEnabled(true);
-
-                if (db.contactDao().getAll().size() > 0){
+                if (db.contactDao().getAll().size() > 0) {
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-
-                for (Contact contact : db.contactDao().getAll()) {
-                    if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
-                        LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
-                        googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet(contact.getFullAddress()));
-                        builder.include(location);
+                    int counter = 0
+                    for (Contact contact : db.contactDao().getAll()) {
+                        if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
+                            counter++;
+                            LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
+                            googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet(contact.getFullAddress()));
+                            builder.include(location);
+                        }
                     }
-                }
+                    if (counter > 0) {
+                        LatLngBounds bounds = builder.build();
 
+                        int padding = 300; // offset from edges of the map in pixels
 
-                LatLngBounds bounds = builder.build();
-
-
-                int padding = 300; // offset from edges of the map in pixels
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-
-                googleMap.moveCamera(cu);
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                        googleMap.moveCamera(cu);
+                    }
                 }
             }
         });
@@ -113,6 +110,7 @@ public class ContactMapFragment extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
     // Method to calculate our latlong from address
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
