@@ -13,8 +13,8 @@ public interface ContactDao {
     @Query("SELECT * FROM contact")
     List<Contact> getAll();
 
-    @Query("SELECT * FROM contact WHERE uid IN (:contactIds)")
-    List<Contact> loadAllByIds(int[] contactIds);
+    @Query("SELECT * FROM contact WHERE uid = :id")
+   Contact findById(long id);
 
     @Query("SELECT * FROM contact WHERE first_name LIKE :first AND "
             + "last_name LIKE :last LIMIT 1")
@@ -22,7 +22,7 @@ public interface ContactDao {
     @Update
     void update (Contact... contacts);
     @Insert
-    void insert(Contact... contacts);
+    long insert(Contact contact);
 
     @Delete
     void delete(Contact contact);

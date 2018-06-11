@@ -84,5 +84,17 @@
         android:layout_height="wrap_content"
         android:text="Contact aanpassen"
         app:layout_constraintTop_toBottomOf="@+id/TextView_email" />
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Verwijderen"
+        app:layout_constraintTop_toBottomOf="@+id/editButton" />
+    <Button
+        android:id="@+id/dialContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact bellen"
+        app:layout_constraintTop_toBottomOf="@+id/deleteButton" />
 
 </android.support.constraint.ConstraintLayout>

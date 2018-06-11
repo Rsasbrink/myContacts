@@ -57,11 +57,15 @@ public class CreateActivity extends AppCompatActivity {
 
                 Contact newContact = new Contact(firstName, lastName, phoneNumber, street, houseNumber, zipcode, city, email);
 
-                db.contactDao().insert(newContact);
-                Intent intent = new Intent(CreateActivity.this, ContactActivity.class);
 
-                new ContactAsyncTask(TASK_INSERT_CONTACT).execute(newContact);
-                startActivityForResult(intent, REQUESTCODE);
+               long id =  db.contactDao().insert(newContact);
+                Contact createdContact = db.contactDao().findById(id);
+                Intent intent = new Intent(CreateActivity.this, ShowActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("contact", createdContact);
+                intent.putExtras(bundle);
+
+                startActivityForResult(intent, 0);
             }
         });
     }

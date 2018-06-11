@@ -30,6 +30,8 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
     public final static int TASK_DELETE_CONTACT = 1;
     public final static int TASK_UPDATE_CONTACT = 2;
     public final static int TASK_INSERT_CONTACT = 3;
+    public static final int DELETED_CONTACT = 2;
+    public static final int BACK_PRESSED = 1;
 
     //Local variables
     private ContactAdapter mAdapter;
@@ -113,20 +115,6 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
 
 
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == REQUESTCODE) {
-            if (resultCode == RESULT_OK) {
-
-//                //Because the updatedReminder object is a new object with a different id, we just change the text of the current one
-//                //So the database can recognize the Reminder by id and update it
-//                Contact updatedReminder = data.getParcelableExtra(MainActivity.EXTRA_CONTACT);
-//                mContacts.get(mModifyPosition).setReminderText(updatedReminder.getReminderText());
-//
-////                new ReminderAsyncTask(TASK_UPDATE_CONTACT).execute(mContacts.get(mModifyPosition));
-            }
-        }
-    }
 
     public void onContactDbUpdated(List list) {
         mContacts = list;
@@ -153,15 +141,8 @@ public class ContactActivity extends AppCompatActivity implements ContactAdapter
         @Override
         protected List doInBackground(Contact... contacts) {
             switch (taskCode) {
-                case TASK_DELETE_CONTACT:
-                    db.contactDao().delete(contacts[0]);
-                    break;
-                case TASK_UPDATE_CONTACT:
-                    db.contactDao().update(contacts[0]);
-                    break;
-                case TASK_INSERT_CONTACT:
-                    db.contactDao().insert(contacts[0]);
-                    break;
+
+
             }
 
             //To return a new list with the updated data, we get all the data from the database again.
