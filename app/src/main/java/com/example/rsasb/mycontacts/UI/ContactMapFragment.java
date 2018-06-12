@@ -63,16 +63,18 @@ public class ContactMapFragment extends Fragment {
                 googleMap.setMyLocationEnabled(true);
                 if (db.contactDao().getAll().size() > 0) {
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    int counter = 0;
+                    int locationAmount = 0;
                     for (Contact contact : db.contactDao().getAll()) {
                         if (contact.getFullName().trim() != "" && !contact.getFullName().isEmpty() && contact.getFullAddress().trim() != "" && !contact.getFullAddress().trim().isEmpty()) {
-                            counter++;
                             LatLng location = getLocationFromAddress(getActivity(), contact.getFullAddress().trim());
-                            googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet(contact.getFullAddress()));
-                            builder.include(location);
+                            if (location != null) {
+                                googleMap.addMarker(new MarkerOptions().position(location).title(contact.getFullName()).snippet(contact.getFullAddress()));
+                                builder.include(location);
+                                locationAmount++;
+                            }
                         }
                     }
-                    if (counter > 0) {
+                    if (locationAmount > 0) {
                         LatLngBounds bounds = builder.build();
 
                         int padding = 300; // offset from edges of the map in pixels
@@ -113,7 +115,6 @@ public class ContactMapFragment extends Fragment {
 
     // Method to calculate our latlong from address
     public LatLng getLocationFromAddress(Context context, String strAddress) {
-
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
@@ -121,13 +122,13 @@ public class ContactMapFragment extends Fragment {
         try {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            if (address.isEmpty()) {
                 return null;
             }
-
-            Address location = (Address) address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
+            if (!address.isEmpty()) {
+                Address location = (Address) address.get(0);
+                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+            }
         } catch (IOException ex) {
 
             ex.printStackTrace();

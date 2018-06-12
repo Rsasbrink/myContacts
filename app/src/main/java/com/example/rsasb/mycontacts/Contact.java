@@ -125,6 +125,6 @@ public class Contact implements Serializable {
     }
 
     public String getFullAddress() {
-        return String.format("%s %s", street, houseNumber, zipCode, city);
+        return street + " " + houseNumber + " " + zipCode + " " + city;
     }
 }

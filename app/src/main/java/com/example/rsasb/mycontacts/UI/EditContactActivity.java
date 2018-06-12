@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,24 +57,30 @@ public class EditContactActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String firstName = mFirstName.getText().toString();
+                if (firstName.trim().isEmpty() || firstName == null) {
+                    Snackbar.make(view, R.string.warning_empty_first_name, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
 
-                contact.setFirstName(mFirstName.getText().toString());
-                contact.setLastName(mLastName.getText().toString());
-                contact.setPhoneNumber(mPhone.getText().toString());
-                contact.setStreet(mStreet.getText().toString());
-                contact.setHouseNumber(mHousenumber.getText().toString());
-                contact.setZipCode(mZipcode.getText().toString());
-                contact.setCity(mCity.getText().toString());
-                contact.setEmailAddress(mEmail.getText().toString());
+                    contact.setFirstName(firstName);
+                    contact.setLastName(mLastName.getText().toString());
+                    contact.setPhoneNumber(mPhone.getText().toString());
+                    contact.setStreet(mStreet.getText().toString());
+                    contact.setHouseNumber(mHousenumber.getText().toString());
+                    contact.setZipCode(mZipcode.getText().toString());
+                    contact.setCity(mCity.getText().toString());
+                    contact.setEmailAddress(mEmail.getText().toString());
 
-                db.contactDao().update(contact);
+                    db.contactDao().update(contact);
 
-                Intent intent = new Intent(EditContactActivity.this, ShowContactActivity.class);
+                    Intent intent = new Intent(EditContactActivity.this, ShowContactActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("contact", contact);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 1234);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("contact", contact);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 1234);
+                }
             }
         });
     }

@@ -47,13 +47,28 @@ public class ShowContactActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.TextView_email);
 
         mFirstName.setText(contact.getFirstName());
-        mLastName.setText(contact.getLastName());
-        mPhone.setText(contact.getPhoneNumber());
-        mStreet.setText(contact.getStreet());
-        mHousenumber.setText(contact.getHouseNumber());
-        mZipcode.setText(contact.getZipCode());
-        mCity.setText(contact.getCity());
-        mEmail.setText(contact.getEmailAddress());
+        if (!contact.getLastName().trim().isEmpty()) {
+            mLastName.setText(contact.getLastName());
+        } else mLastName.setVisibility(View.GONE);
+        if (!contact.getPhoneNumber().trim().isEmpty()) {
+            mPhone.setText(contact.getPhoneNumber());
+        } else mPhone.setVisibility(View.GONE);
+        if (!contact.getStreet().trim().isEmpty()) {
+            mStreet.setText(contact.getStreet());
+            mHousenumber.setText(contact.getHouseNumber());
+        } else {
+            mStreet.setVisibility(View.GONE);
+            mHousenumber.setVisibility(View.GONE);
+        }
+        if (!contact.getZipCode().trim().isEmpty()) {
+            mZipcode.setText(contact.getZipCode());
+        } else mZipcode.setVisibility(View.GONE);
+        if (!contact.getCity().trim().isEmpty()) {
+            mCity.setText(contact.getCity());
+        } else mCity.setVisibility(View.GONE);
+        if (!contact.getEmailAddress().trim().isEmpty()) {
+            mEmail.setText(contact.getEmailAddress());
+        } else mEmail.setVisibility(View.GONE);
         editButton = findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

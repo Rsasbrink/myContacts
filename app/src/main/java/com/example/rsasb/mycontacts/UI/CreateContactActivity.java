@@ -39,6 +39,7 @@ public class CreateContactActivity extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String firstName = mFirstName.getText().toString();
                 String lastName = mLastName.getText().toString();
                 String phoneNumber = mPhone.getText().toString();

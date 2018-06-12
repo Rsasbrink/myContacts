@@ -9,7 +9,7 @@
     <string name="hint_street">Straat</string>
     <string name="hint_housenumber">Huisnummer</string>
     <string name="hint_zipcode">Postcode</string>
-    <string name="hint_city">Woonplaats</string>
+    <string name="hint_city">Plaats</string>
     <string name="hint_email">E-mailadres</string>
     <string name="button_save">Opslaan</string>
     <string name="answer_yes">Ja</string>

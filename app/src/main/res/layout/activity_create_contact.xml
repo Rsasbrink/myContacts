@@ -10,17 +10,6 @@
         android:layout_height="match_parent"
         tools:context=".UI.CreateContactActivity">
 
-        <TextView
-            android:id="@+id/textView"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="New Contact"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <EditText
             android:id="@+id/editText_firstName"
             android:layout_width="wrap_content"
@@ -30,8 +19,7 @@
             android:ems="10"
             android:hint="@string/hint_first_name"
             android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/editText_lastName"
